@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+  <head>
+    <title>{% block title %}{% endblock %} - Pentest Party</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="{{ page.title }}"/>
+    <meta property="og:url" content="{{ options.public_url }}/{{ page.urlpath }}"/>
+    <meta property="og:image" content="{{ options.public_url }}/static/cardicon.svg"/>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{ page.title }}"/>
+    <meta name="twitter:image" content="{{ options.public_url }}/static/cardicon.svg"/>
+    <meta name="twitter:url" content="{{ options.public_url }}/{{ page.urlpath }}"/>
+    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/static/mvp.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/pygments-light.css">
+    <link rel="stylesheet" media="(prefers-color-scheme: dark)" href="/static/pygments-dark.css">
+  </head>
+  <body id="top">
+    <script>0</script><!-- prevent flash of unstyled content in firefox, see https://stackoverflow.com/a/57888310-->
+    <header>
+      <nav>
+        <a href="/">
+          <h3>
+            <svg width="1rem" height="1rem" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <use href="/static/feather-sprite.svg#zap"/>
+            </svg>
+            <span>Pentest Party</span>
+          </h3>
+        </a>
+        <ul>
+          <li>
+            <a href="https://github.com/dadevel">
+              <svg width="1rem" height="1rem" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <use href="/static/feather-sprite.svg#github"/>
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a href="https://twitter.com/0x64616e">
+              <svg width="1rem" height="1rem" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <use href="/static/feather-sprite.svg#twitter"/>
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <div id="content">
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+    <footer>
+      <hr>
+      <p><small>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></small></p>
+    </footer>
+  </body>
+</html>

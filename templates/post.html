@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}{{ page.title|e }}{% endblock %}
+{% block content %}
+<article>
+  <header>
+    <h1>
+      {{ page.title|e }}
+      <a href="https://github.com/dadevel/blog/blob/main/content/{{ page.urlpath|e }}">
+        <svg width="1rem" height="1rem" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <use href="/static/feather-sprite.svg#edit-2"/>
+        </svg>
+      </a>
+    </h1>
+    <small><p>{{ page.modified_at.strftime('%d.%m.%Y') }} · {% if not page.authors %}anonymous{% else %}{% for author in page.authors %}{{ author|e }}{% if not loop.last %}, {% endif %}{% endfor %}{% endif %}</p></small>
+  </header>
+  <main>
+    {{ page.content }}
+  </main>
+</article>
+{% endblock %}

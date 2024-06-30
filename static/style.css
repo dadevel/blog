@@ -1,0 +1,235 @@
+:root {
+  --custom-gap: 24px;
+
+  --width-content: 720px;
+  --justify-important: left;
+  --justify-normal: left;
+
+  --color-bg: #F2F2F2; /* background, white 5% darkened */
+  --color-bg-secondary: #FFFFFF; /* code block, quote background, full white */
+  --color-bg-alternate: #FAFAFA; /* alternate table row background, white 2% darkened */
+  --color-text: #0D0D0D; /* foreground, back 5% lightened */
+  --color-text-secondary: #7F7F7F; /* small, figcaption, black 50% lightened  */
+  --color-link: #118bee; /* a, blue accent */
+  --color-accent: #ff0000; /* ? */
+  --color-secondary: #ff0000;  /* ? */
+  --color-secondary-accent: #ff0000; /* ? */
+  --color-shadow: #ff0000; /* ? */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #1A1A1A; /* background, dark 10% lightened */
+    --color-bg-secondary: #000000;
+    --color-bg-alternate: #121212; /* alternate table row background, black 7% lightened */
+    --color-table: var(--color-bg-secondary);
+    --color-text: #F2F2F2;
+    --color-text-secondary: #808080;
+    --color-link: #118bee; /* a, blue accent */
+    --color-accent: #ff0000; /* ? */
+    --color-secondary: #ff0000;  /* ? */
+    --color-secondary-accent: #ff0000; /* ? */
+    --color-shadow: #ff0000; /* ? */
+  }
+}
+
+body {
+  max-width: var(--width-content);
+  margin: 0 auto;
+  padding: 0 1em;
+}
+
+nav {
+  margin-bottom: 0;
+  flex-wrap: wrap;
+}
+
+nav h6 {
+  margin: 0;
+}
+
+nav a:hover {
+  text-decoration: none;
+}
+
+header, footer, main {
+  padding: 0;
+}
+
+#content div.highlight {
+  background: none !important;
+}
+
+#content section {
+  display: block;
+}
+
+#content figcaption {
+  text-align: center;
+}
+
+#content figcaption a {
+  color: inherit;
+  text-decoration: underline;
+  font-weight: normal;
+}
+
+small a {
+  color: var(--color-text-secondary);
+  text-decoration: underline;
+  font-weight: normal;
+}
+
+#content blockquote {
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--border-radius);
+  max-width: none;
+  padding: 0.1rem 1rem;
+  font-size: inherit;
+}
+
+#content pre {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+}
+
+#content pre code {
+  max-width: 100%;
+  min-width: 100%;
+  padding: 1rem;
+  margin: 0.5em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: inline-block;
+  background-color: var(--color-bg-secondary);
+  box-sizing: border-box;
+  white-space: pre;
+}
+
+#content .tabbed-content pre code {
+  padding: 0;
+  background-color: transparent;
+}
+
+#content code {
+  padding: 0;
+  display: inline;
+  background-color: transparent;
+}
+
+hr {
+  margin-top: 3rem;
+  margin-bottom: 0;
+  background-color: var(--color-text-secondary);
+}
+
+#content blockquote ul {
+  margin-left: 1rem;
+  padding: 0;
+}
+
+a {
+  font-weight: normal;
+  color: var(--color-text);
+  text-decoration: underline;
+}
+
+header a {
+  color: var(--color-link);
+  text-decoration: none;
+}
+
+article header p {
+  margin: 0;
+}
+
+article header h1 {
+  margin: 0;
+}
+
+article header {
+  margin-bottom: 2rem;
+}
+
+#content main h1 {
+  font-size: x-large;
+}
+
+#content main h2 {
+  font-size: larger;
+}
+
+#content main h3, h4, h5, h6 {
+  font-size: large;
+}
+
+h1 {
+  font-size: xx-large;
+}
+
+h2, h3 {
+  font-size: x-large;
+}
+
+h4 {
+  font-size: larger;
+}
+
+h5 {
+  font-size: large;
+}
+
+h6 {
+  font-size: medium;
+}
+
+table {
+  background-color: var(--color-bg-secondary);
+}
+
+table thead {
+  color: var(--color-text);
+  background-color: var(--color-bg-secondary);
+}
+
+table tbody tr:nth-child(even) {
+  background-color: var(--color-bg-secondary);
+}
+
+table tbody tr:nth-child(odd) {
+  background-color: var(--color-bg-alternate);
+}
+
+#index h5 {
+  color: var(--color-text);
+  margin: 0;
+}
+
+#index section.card {
+  padding: var(--custom-gap);
+  margin-bottom: var(--custom-gap);
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--border-radius);
+}
+
+#index section.card:hover {
+  background-color: var(--color-bg-alternate);
+}
+
+#index a {
+  text-decoration: none;
+}
+
+#index div.intro > p {
+  display: inline;
+}
+
+#greeting {
+  margin-bottom: calc(var(--custom-gap) * 2);
+}
+
+#greeting h1 {
+  margin-bottom: 0;
+}
+

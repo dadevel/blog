@@ -1,0 +1,25 @@
+name: CI
+permissions:
+  contents: read
+  deployments: write
+'on':
+  push:
+    branches:
+    - main
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    environment: pentest-party (Production)
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Build
+      run: sudo apt-get install -y --no-install-recommends python3-poetry && poetry install && poetry run ./build.py
+    - name: Deploy
+      uses: cloudflare/pages-action@v1
+      with:
+        apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+        projectName: ${{ vars.CLOUDFLARE_PROJECT_NAME }}
+        gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+        directory: ./public
