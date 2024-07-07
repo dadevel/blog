@@ -11,7 +11,7 @@ packages = [{include = "build.py"}]
 python = "^3.10"
 jinja2 = "^3.1.4"
 markdown = "^3.6"
-pygments = "^2.17.2"
+pygments = "^2.18.0"
 pymdown-extensions = "^10.7.1"
 pyyaml = "^6.0.1"
 
