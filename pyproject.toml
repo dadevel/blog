@@ -12,7 +12,7 @@ python = "^3.10"
 jinja2 = "^3.1.6"
 markdown = "^3.8"
 pygments = "^2.19.1"
-pymdown-extensions = "^10.14"
+pymdown-extensions = "^10.15"
 pyyaml = "^6.0.2"
 
 [build-system]
