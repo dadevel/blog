@@ -1,20 +1,14 @@
-[tool.poetry]
+[project]
 name = "blog"
 version = "0.0.1"
 description = ""
-authors = ["dadevel <dadevel@disroot.org>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "build.py"}]
-
-[tool.poetry.dependencies]
-python = "^3.10"
-jinja2 = "^3.1.6"
-markdown = "^3.8"
-pygments = "^2.19.1"
-pymdown-extensions = "^10.15"
-pyyaml = "^6.0.2"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires-python = ">=3.13"
+dependencies = [
+  "jinja2>=3.1.6",
+  "markdown>=3.8",
+  "pygments>=2.19.1",
+  "pymdown-extensions>=10.15",
+  "pyyaml>=6.0.2",
+]

@@ -4,15 +4,14 @@
 <article>
   <main>
    <section id="greeting">
-      <h1>Hi there 👋</h1>
-      <p>Welcome to this blog centered around pentesting, red teaming and malware development.<br>If you came here expecting to find a knowledgebase, I'm sorry to inform you that it is no longer publicly available.</p>
+      {{ page.content }}
     </section>
     <section id="index">
       {% for page in pages %}
       <section class="card">
         <a href="/{{ page.urlpath|e }}">
           <h5>{{ page.title|e }}</h5>
-          <div class="intro">{{ page.content | truncate(180, False) }}</div>
+          <div class="intro">{{ page.plain_content|truncate(180, False) }}</div>
           <small><p>{{ page.modified_at.strftime('%d.%m.%Y') }} · {% if not page.authors %}anonymous{% else %}{% for author in page.authors %}{{ author|e }}{% if not loop.last %}, {% endif %}{% endfor %}{% endif %}</p></small>
         </a>
       </section>

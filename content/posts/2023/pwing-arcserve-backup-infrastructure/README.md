@@ -12,7 +12,7 @@ One word of caution: This was my first contact with Arcserve, so I don't know ho
 
 The setup I was up against looked roughly like this:
 
-![Diagram of the backup infrastructure](./infra-overview.png)
+![Diagram of the backup infrastructure](infra-overview.png)
 
 Arcserve backup agents were running on multiple domain-joined Windows Servers, while the central Arcserve management server was not domain-joined.
 The storage was attached to the management server over iSCSI.
@@ -34,13 +34,13 @@ The latter contained an encrypted password of an Arcserve service account.
 But because this encryption is performed with a publicly known static key the plain password can be recovered offline with [ArcServeDecrypter.c](https://github.com/mdsecactivebreach/CVE-2023-26258-ArcServe/), which MDSec released along with the exploit for the previously mentioned CVE.
 Now I was even more surprised when I realized that the service account was domain admin.
 
-![Alternatively local admins can dump the password blob over Remote Registry with [arcserve-regkeys.py](https://github.com/mdsecactivebreach/CVE-2023-26258-ArcServe/blob/main/arcserve-regkeys.py)](./arcserve-regdump.png)
+![Alternatively local admins can dump the password blob over Remote Registry with [arcserve-regkeys.py](https://github.com/mdsecactivebreach/CVE-2023-26258-ArcServe/blob/main/arcserve-regkeys.py)](arcserve-regdump.png)
 
 With this service account I accessed a Domain Controller and noticed the file `C:\Program Files\Arcserve\Unified Data Protection\Engine\Configuration\BackupConfiguration.xml` which was not present on the first server.
 This file contained several Base64 password blobs that, after being converted to hex, could be decrypted with `ArcServeDecrypter.c` as well.
 One of them was the password of the local administrator on the non-domain-joined Arcserve management server.
 
-![Excerpt from BackupConfiguration.xml](./arcserve-backup-config.png)
+![Excerpt from BackupConfiguration.xml](arcserve-backup-config.png)
 
 # Database Access
 
@@ -54,7 +54,7 @@ Once I could access the database I dumped the encrypted credentials with the fol
 SELECT h.ipaddress, h.rhostname, h.osdesc, c.username, c.password FROM as_edge_host AS h, as_edge_connect_info AS c WHERE h.rhostid=c.hostid ORDER BY c.hostid;
 ~~~
 
-![Database dump in SQL Studio](./arcserve-mssql.png)
+![Database dump in SQL Studio](arcserve-mssql.png)
 
 Decrypting all those juicy passwords with the original tool from MDSec was a bit tedious, because it had to be recomplied for each password.
 Therefore I hacked together a slightly improved [ArcserveDecrypter.cpp](https://gist.github.com/dadevel/27f9a23dccaeb6968a239204f7857b94) that allowed to quickly decrypt all passwords.
@@ -62,7 +62,7 @@ This resulted in access to several critical infrastructure components like VMwar
 
 Additionally I found admin credentials for both NAS devices saved in the browser.
 
-![Passwords saved in the browser](./browser-passwords.png)
+![Passwords saved in the browser](browser-passwords.png)
 
 # Storage Access
 
@@ -71,7 +71,7 @@ On the backup server, admin credentials were stored in the browser again.
 This time for the tape library.
 And finally I had control over the entire backup infrastructure.
 
-![Admin on tape library](./tape-library-admin.png)
+![Admin on tape library](tape-library-admin.png)
 
 # References
 

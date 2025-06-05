@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="robots" content="index, follow">
+    <meta name="description" content="{{ page.plain_content|truncate(180, False) }}">
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="{{ page.title }}"/>
     <meta property="og:url" content="{{ options.public_url }}/{{ page.urlpath }}"/>
@@ -18,14 +19,15 @@
     <link rel="stylesheet" href="/static/style.css">
     <link rel="stylesheet" href="/static/pygments-light.css">
     <link rel="stylesheet" media="(prefers-color-scheme: dark)" href="/static/pygments-dark.css">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'none';object-src 'none';base-uri 'none';frame-src 'none';upgrade-insecure-requests;">
   </head>
   <body id="top">
-    <script>0</script><!-- prevent flash of unstyled content in firefox, see https://stackoverflow.com/a/57888310-->
     <header>
       <nav>
         <a href="/">
           <h3>
             <svg width="1rem" height="1rem" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <title>Home</title>
               <use href="/static/feather-sprite.svg#zap"/>
             </svg>
             <span>Pentest Party</span>
@@ -35,6 +37,7 @@
           <li>
             <a href="https://github.com/dadevel">
               <svg width="1rem" height="1rem" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <title>GitHub</title>
                 <use href="/static/feather-sprite.svg#github"/>
               </svg>
             </a>
@@ -42,6 +45,7 @@
           <li>
             <a href="https://twitter.com/0x64616e">
               <svg width="1rem" height="1rem" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <title>Twitter</title>
                 <use href="/static/feather-sprite.svg#twitter"/>
               </svg>
             </a>

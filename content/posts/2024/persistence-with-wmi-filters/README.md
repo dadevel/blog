@@ -12,9 +12,9 @@ The basic idea is this: Add a new Group Policy Preference (GPP) to an existing G
 Then configure this GPP to add a group like *Domain Users* to the local *Administrators* group.
 Next enable item-level targeting on the GPP and configure a WMI filter that searches for failed logon events where the event message contains a specific string (*open.sesame* in the example below).
 
-![Add GPP](./gpp-config.png)
+![Add GPP](gpp-config.png)
 
-![Configure item-level targeting with custom WMI query](./gpp-wmi-filter.png)
+![Configure item-level targeting with custom WMI query](gpp-wmi-filter.png)
 
 WMI query from screenshot above:
 
@@ -25,7 +25,7 @@ SELECT EventCode FROM Win32_NTLogEvent WHERE Logfile='Security' AND EventCode=46
 The result of this GPO: An attacker can become local admin on any computer where the GPO applies by authenticating as user *open.sesame*.
 On the next group policy update cycle, the WMI query will find the failed logon event and the GPP will be applied to the system.
 
-![Trigger GPP trough logon event](./activation.png)
+![Trigger GPP trough logon event](activation.png)
 
 # References
 

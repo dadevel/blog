@@ -6,6 +6,7 @@ from pathlib import Path
 from re import Match
 from xml.etree.ElementTree import Element, SubElement
 import dataclasses
+import re
 import shutil
 import sys
 
@@ -56,6 +57,8 @@ class ImageCaptionInlineProcessor(ImageInlineProcessor):
         img.set('src', src)
         if title is not None:
             img.set('title', title)
+        img.set('alt', text)
+        img.set('loading','lazy')
 
         cap = SubElement(fig, 'figcaption')
         cap.text = text
@@ -82,6 +85,7 @@ class Page:
     title: str  # tile from frontmatter
     template: str|None
     content: str  # markdown content
+    plain_content: str  # content without HTML tags
     modified_at: datetime  # last git commit
     authors: list[str]  # git authors
     draft: bool = True  # draft if not committed to git
@@ -113,8 +117,11 @@ class Page:
         assert isinstance(draft, bool)
         modified_at = datetime(year=post_date.year, month=post_date.month, day=post_date.day)
 
-        return cls(srcpath=srcpath, dstpath=dstpath, urlpath=urlpath, title=post_title, template=post_template, modified_at=modified_at, authors=post_authors, draft=draft, content='')
+        return cls(srcpath=srcpath, dstpath=dstpath, urlpath=urlpath, title=post_title, plain_content='', template=post_template, modified_at=modified_at, authors=post_authors, draft=draft, content='')
 
+
+# source: https://github.com/pallets/markupsafe/blob/feb1d70c16df62f60dcb521d127fdad8819fc036/markupsafe/__init__.py#L21
+HTML_TAG_PATTERN = re.compile(r'(<!--.*?-->|<[^>]*>)')
 
 def preprocess_page(all_posts: list[Page], current_post: Page) -> None:
     file = MarkdownFile(
@@ -130,6 +137,7 @@ def preprocess_page(all_posts: list[Page], current_post: Page) -> None:
         output_format='html',
     )
     current_post.content = file.convert(current_post.srcpath.read_text())
+    current_post.plain_content = HTML_TAG_PATTERN.sub('', current_post.content)
 
 
 def render_page(environment: Environment, opts: Namespace, all_posts: list[Page], current_post: Page) -> None:
@@ -180,6 +188,9 @@ def do_work(opts: Namespace) -> None:
 
     print(f'copying static files', file=sys.stderr)
     shutil.copytree('./static', OUTPUT_DIR/'static')
+
+    print(f'copying robots.txt', file=sys.stderr)
+    shutil.copy2('./robots.txt', OUTPUT_DIR/'robots.txt')
 
 
 def main() -> None:
