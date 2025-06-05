@@ -11,12 +11,13 @@ jobs:
     runs-on: ubuntu-24.04
     environment: pentest-party (Production)
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Build
-      run: sudo apt-get install -y --no-install-recommends python3-poetry && poetry install && poetry run ./build.py
-    - name: Deploy
-      uses: cloudflare/pages-action@v1
+    - uses: actions/checkout@v4
+    - uses: astral-sh/setup-uv@v5
+    - uses: actions/setup-python@v5
+      with:
+        python-version-file: .python-version
+    - run: uv run ./build.py
+    - uses: cloudflare/pages-action@v1
       with:
         apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
