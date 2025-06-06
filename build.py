@@ -47,9 +47,6 @@ class ImageCaptionInlineProcessor(ImageInlineProcessor):
         if not handled:
             return None, None, None
 
-        assert isinstance(self.md, MarkdownFile)
-        image = Image.open(self.md.page.srcpath.parent/src)
-
         fig = Element('figure')
 
         # open image in new tab
@@ -58,10 +55,17 @@ class ImageCaptionInlineProcessor(ImageInlineProcessor):
         anchor.set('target', '_blank')
 
         img = SubElement(anchor, 'img')
-        img.set('src', src)
+        if src.endswith('.png'):
+            img.set('src', src.removesuffix('.png') + '.webp')
+        else:
+            img.set('src', src)
+
         if title is not None:
             img.set('title', title)
         img.set('alt', text)
+
+        assert isinstance(self.md, MarkdownFile)
+        image = Image.open(self.md.page.srcpath.parent/src)
         img.set('width', str(image.width))
         img.set('height', str(image.height))
 
@@ -150,7 +154,6 @@ def render_page(environment: Environment, opts: Namespace, all_posts: list[Page]
         template = current_post.template
     else:
         template = 'post'
-    #public_posts = list(sorted((other for other in all_posts.values() if current_post.identifier != other.identifier and other.identifier != 'posts/README' and other.identifier.startswith('posts/')), key=lambda p: (-p.modified_at.timestamp(), p.title)))
     final_html = environment.get_template(f'{template}.html').render(page=current_post, options=opts, pages=all_posts)
     current_post.dstpath.write_bytes(final_html.encode('utf-8', errors='xmlcharrefreplace'))
 
@@ -190,6 +193,13 @@ def do_work(opts: Namespace) -> None:
     render_page(environment, opts, posts, index_page)
     for post in posts:
         render_page(environment, opts, posts, post)
+
+    print(f'converting images', file=sys.stderr)
+    for org_path in OUTPUT_DIR.glob('posts/**/*.png'):
+        new_path = org_path.with_suffix('.webp')
+        image = Image.open(org_path)
+        image.save(new_path, 'webp')
+        org_path.unlink()
 
     print(f'copying static files', file=sys.stderr)
     shutil.copytree('./static', OUTPUT_DIR/'static')
