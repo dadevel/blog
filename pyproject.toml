@@ -13,3 +13,8 @@ dependencies = [
   "pymdown-extensions>=10.15",
   "pyyaml>=6.0.2",
 ]
+
+[dependency-groups]
+dev = [
+    "accessible-pygments>=0.0.5",
+]
