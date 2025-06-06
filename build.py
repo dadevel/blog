@@ -10,6 +10,7 @@ import re
 import shutil
 import sys
 
+from PIL import Image
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 from markdown.core import Markdown
 from markdown.extensions import Extension
@@ -46,6 +47,9 @@ class ImageCaptionInlineProcessor(ImageInlineProcessor):
         if not handled:
             return None, None, None
 
+        assert isinstance(self.md, MarkdownFile)
+        image = Image.open(self.md.page.srcpath.parent/src)
+
         fig = Element('figure')
 
         # open image in new tab
@@ -58,7 +62,8 @@ class ImageCaptionInlineProcessor(ImageInlineProcessor):
         if title is not None:
             img.set('title', title)
         img.set('alt', text)
-        img.set('loading','lazy')
+        img.set('width', str(image.width))
+        img.set('height', str(image.height))
 
         cap = SubElement(fig, 'figcaption')
         cap.text = text

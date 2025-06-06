@@ -75,6 +75,12 @@ header, footer, main {
   font-weight: normal;
 }
 
+#content figure img {
+  max-width: 100%;
+  height: auto;
+  background-color: var(--color-bg-secondary);
+}
+
 small a {
   color: var(--color-text-secondary);
   text-decoration: underline;
