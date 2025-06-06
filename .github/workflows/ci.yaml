@@ -17,6 +17,7 @@ jobs:
       with:
         python-version-file: .python-version
     - run: uv run ./build.py
+    - run: ./minify.sh
     - uses: cloudflare/pages-action@v1
       with:
         apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}

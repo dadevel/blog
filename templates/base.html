@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="robots" content="index, follow">
-    <meta name="description" content="{{ page.plain_content|truncate(180, False) }}">
+    <meta name="description" content="{{ page.plain_content|replace('\n', ' ')|truncate(180, False) }}">
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="{{ page.title }}"/>
     <meta property="og:url" content="{{ options.public_url }}/{{ page.urlpath }}"/>
