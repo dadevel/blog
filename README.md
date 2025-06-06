@@ -8,6 +8,5 @@ Live at [pentest.party](https://pentest.party/).
 Build and start local server.
 
 ~~~ bash
-poetry install
-poetry run ./build.py && python -m http.server -d ./public
+uv run ./build.py && python -m http.server -d ./public
 ~~~
