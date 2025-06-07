@@ -47,27 +47,26 @@ class ImageCaptionInlineProcessor(ImageInlineProcessor):
         if not handled:
             return None, None, None
 
+        assert isinstance(self.md, MarkdownFile)
+        image = Image.open(self.md.page.srcpath.parent/src)
+
+        if src.endswith('.png'):
+            src = src.removesuffix('.png') + '.webp'
+
         fig = Element('figure')
 
-        # open image in new tab
+        # click opens image in new tab
         anchor = SubElement(fig, 'a')
         anchor.set('href', src)
         anchor.set('target', '_blank')
 
         img = SubElement(anchor, 'img')
-        if src.endswith('.png'):
-            img.set('src', src.removesuffix('.png') + '.webp')
-        else:
-            img.set('src', src)
-
+        img.set('src', src)
+        img.set('width', str(image.width))
+        img.set('height', str(image.height))
         if title is not None:
             img.set('title', title)
         img.set('alt', text)
-
-        assert isinstance(self.md, MarkdownFile)
-        image = Image.open(self.md.page.srcpath.parent/src)
-        img.set('width', str(image.width))
-        img.set('height', str(image.height))
 
         cap = SubElement(fig, 'figcaption')
         cap.text = text
