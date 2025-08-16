@@ -9,7 +9,7 @@
     <section id="index">
       {% for page in pages %}
       <section class="card">
-        <a href="/{{ page.urlpath|e }}">
+        <a href="/{{ page.slug|e }}">
           <h5>{{ page.title|e }}</h5>
           <div class="intro"><p>{{ page.plain_content|replace('\n', ' ')|truncate(180, False) }}</p></div>
           <small><p>{{ page.modified_at.strftime('%d.%m.%Y') }} · {% if not page.authors %}anonymous{% else %}{% for author in page.authors %}{{ author|e }}{% if not loop.last %}, {% endif %}{% endfor %}{% endif %}</p></small>

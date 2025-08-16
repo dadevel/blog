@@ -2,6 +2,7 @@
 title: Pwning Arcserve Backup Infrastructure
 authors: [dadevel]
 date: 2023-08-25
+image: arcserve-regdump.webp
 draft: false
 ---
 

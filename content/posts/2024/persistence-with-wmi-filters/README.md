@@ -2,6 +2,7 @@
 title: Persistence With GPP Item-level Targeting
 authors: [dadevel, mojeda]
 date: 2024-06-29
+image: gpp-config.webp
 draft: false
 ---
 

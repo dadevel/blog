@@ -6,6 +6,7 @@ from pathlib import Path
 from re import Match
 from xml.etree.ElementTree import Element, SubElement
 import dataclasses
+import itertools
 import re
 import shutil
 import sys
@@ -50,7 +51,9 @@ class ImageCaptionInlineProcessor(ImageInlineProcessor):
         assert isinstance(self.md, MarkdownFile)
         image = Image.open(self.md.page.srcpath.parent/src)
 
-        if src.endswith('.png'):
+        if src.endswith('.jpg'):
+            src = src.removesuffix('.jpg') + '.webp'
+        elif src.endswith('.png'):
             src = src.removesuffix('.png') + '.webp'
 
         fig = Element('figure')
@@ -89,8 +92,9 @@ class ImageCaptionExtension(Extension):
 class Page:
     srcpath: Path  # relative path to source markdown file in content directory
     dstpath: Path  # relative path to HTML file in public directory
-    urlpath: str  # relative path where index files are replaced with parent directory
+    slug: str  # relative path where index files are replaced with parent directory
     title: str  # tile from frontmatter
+    image: str|None  # image url from frontmatter
     template: str|None
     content: str  # markdown content
     plain_content: str  # content without HTML tags
@@ -110,22 +114,24 @@ class Page:
 
         relpath = srcpath.relative_to(CONTENT_DIR)
         dstpath = OUTPUT_DIR/relpath.parent/'index.html'
-        urlpath = f'{relpath.parent}/'
+        slug = f'{relpath.parent}/'
 
         assert isinstance(frontmatter, dict)
         post_title = frontmatter['title']
+        post_image = f'{relpath.parent}/{frontmatter['image']}' if frontmatter.get('image') else None
         post_authors = frontmatter['authors']
         post_date = frontmatter['date']
         post_template = frontmatter.get('template')  # TODO: remove
         draft = frontmatter.get('draft', True)
         assert isinstance(post_title, str)
+        assert isinstance(post_image, str) or post_image is None
         assert isinstance(post_authors, list)
         assert all(isinstance(x, str) for x in post_authors)
         assert isinstance(post_date, date)
         assert isinstance(draft, bool)
         modified_at = datetime(year=post_date.year, month=post_date.month, day=post_date.day)
 
-        return cls(srcpath=srcpath, dstpath=dstpath, urlpath=urlpath, title=post_title, plain_content='', template=post_template, modified_at=modified_at, authors=post_authors, draft=draft, content='')
+        return cls(srcpath=srcpath, dstpath=dstpath, slug=slug, title=post_title, image=post_image, plain_content='', template=post_template, modified_at=modified_at, authors=post_authors, draft=draft, content='')
 
 
 # source: https://github.com/pallets/markupsafe/blob/feb1d70c16df62f60dcb521d127fdad8819fc036/markupsafe/__init__.py#L21
@@ -194,7 +200,7 @@ def do_work(opts: Namespace) -> None:
         render_page(environment, opts, posts, post)
 
     print(f'converting images', file=sys.stderr)
-    for org_path in OUTPUT_DIR.glob('posts/**/*.png'):
+    for org_path in itertools.chain(OUTPUT_DIR.glob('posts/**/*.jpg'), OUTPUT_DIR.glob('posts/**/*.png')):
         new_path = org_path.with_suffix('.webp')
         image = Image.open(org_path)
         image.save(new_path, 'webp')
