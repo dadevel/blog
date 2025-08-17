@@ -81,3 +81,7 @@ After the new password took effect, the old password kept working for a while, b
 It's new to me that an account can have multiple valid passwords at the same time.
 
 ![Two passwords?](bonus.png)
+
+Update:
+It turns out that this is [documented](https://learn.microsoft.com/en-us/troubleshoot/windows-server/windows-security/new-setting-modifies-ntlm-network-authentication) behaviour.
+Thanks to [@filip_dragovic](https://twitter.com/filip_dragovic/status/1956767703131398269) for the link.
