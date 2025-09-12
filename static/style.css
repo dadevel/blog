@@ -14,7 +14,7 @@
   --color-accent: #ff0000; /* ? */
   --color-secondary: #ff0000;  /* ? */
   --color-secondary-accent: #ff0000; /* ? */
-  --color-shadow: #ff0000; /* ? */
+  --color-shadow: transparent; /* box shadow */
 }
 
 @media (prefers-color-scheme: dark) {

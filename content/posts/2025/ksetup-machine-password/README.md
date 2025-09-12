@@ -74,6 +74,9 @@ And the two EDRs I tested against did not blink an eye.
 
 ![Success!](success.png)
 
+Update: [@netsectuna](https://x.com/netsectuna) pointed out to me that the computer sometimes fails to send its new password to the domain controller, which then breaks the domain join.
+Until the cause of this problem has been identified, it is probably best to avoid using this technique in production.
+
 # Bonus
 
 While testing my implementation, I noticed something strange.
