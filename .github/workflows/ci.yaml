@@ -18,10 +18,9 @@ jobs:
         python-version-file: .python-version
     - run: uv run ./build.py
     - run: ./minify.sh
-    - uses: cloudflare/pages-action@v1
+    - uses: cloudflare/wrangler-action@v3
       with:
         apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
-        projectName: ${{ vars.CLOUDFLARE_PROJECT_NAME }}
         gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-        directory: ./public
+        command: pages deploy ./public --project-name pentest-party
