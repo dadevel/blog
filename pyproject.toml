@@ -7,7 +7,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
   "jinja2>=3.1.6",
-  "markdown>=3.8",
+  "markdown>=3.10.2",
   "pillow>=11.2.1",
   "pygments>=2.19.1",
   "pymdown-extensions>=10.15",
