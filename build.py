@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 from argparse import ArgumentParser, BooleanOptionalAction, Namespace
-from datetime import date, datetime
+from datetime import date, datetime, timezone
+from email.utils import format_datetime
 from pathlib import Path
 from re import Match
-from xml.etree.ElementTree import Element, SubElement
+from xml.etree.ElementTree import Element, SubElement, indent, tostring
 import dataclasses
 import itertools
 import re
@@ -163,6 +164,28 @@ def render_page(environment: Environment, opts: Namespace, all_posts: list[Page]
     current_post.dstpath.write_bytes(final_html.encode('utf-8', errors='xmlcharrefreplace'))
 
 
+def generate_feed(opts: Namespace, posts: list[Page]) -> str:
+    channel = Element('channel')
+    SubElement(channel, 'title').text = 'pentest.party'
+    SubElement(channel, 'link').text = opts.public_url
+    SubElement(channel, 'description').text = 'Posts about pentesting, red teaming and malware development'
+    SubElement(channel, 'lastBuildDate').text = format_datetime(datetime.now(tz=timezone.utc))
+
+    for post in posts:
+        url = f'{opts.public_url}/{post.slug}'
+        item = SubElement(channel, 'item')
+        SubElement(item, 'title').text = post.title
+        SubElement(item, 'link').text = url
+        SubElement(item, 'guid').text = url
+        SubElement(item, 'description').text = post.plain_content[:200].rstrip() + ' ...'
+        SubElement(item, 'pubDate').text = format_datetime(post.modified_at.replace(tzinfo=timezone.utc))
+
+    root = Element('rss', version='2.0')
+    root.append(channel)
+    indent(root)
+    return tostring(root, encoding='utf-8', xml_declaration=True)
+
+
 def do_work(opts: Namespace) -> None:
     if OUTPUT_DIR.exists():
         shutil.rmtree(OUTPUT_DIR)
@@ -192,6 +215,9 @@ def do_work(opts: Namespace) -> None:
     preprocess_page(posts, index_page)
     for post in posts:
         preprocess_page(posts, post)
+
+    print(f'generating rss feed', file=sys.stderr)
+    OUTPUT_DIR.joinpath('feed.xml').write_bytes(generate_feed(opts, posts))
 
     print(f'rendering pages', file=sys.stderr)
     environment = Environment(loader=FileSystemLoader(TEMPLATE_DIR), autoescape=False, undefined=StrictUndefined)
