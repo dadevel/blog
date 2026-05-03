@@ -6,6 +6,8 @@ permissions:
   push:
     branches:
     - main
+  schedule:
+  - cron: 0 1 * * *
 jobs:
   publish:
     runs-on: ubuntu-24.04
@@ -17,6 +19,7 @@ jobs:
       with:
         python-version-file: .python-version
     - run: uv run ./build.py
+    - run: uv run ./news.py ./urls.txt > ./public/news.xml
     - run: ./minify.sh
     - uses: cloudflare/wrangler-action@v3
       with:
