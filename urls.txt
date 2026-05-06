@@ -4,6 +4,7 @@ https://5pider.net/blog/atom.xml
 https://aadinternals.com/index.xml
 https://adepts.of0x.cc/feed.xml
 https://badoption.eu/feed.xml
+https://blogs.kde.org/categories/this-week-in-plasma/index.xml
 https://blog.delivr.to/feed
 https://blog.didierstevens.com/feed/
 https://blog.fox-it.com/feed/
@@ -40,8 +41,8 @@ https://mayfly277.github.io/feed
 https://mgeeky.tech/feed/
 https://modexp.wordpress.com/feed/
 https://offsec.almond.consulting/feeds/all.rss.xml
-https://pentest.party/feed.xml
 https://pagedout.institute/atom.xml
+https://pentest.party/feed.xml
 https://pluralistic.net/feed/
 https://portswigger.net/research/rss
 https://projectzero.google/feed.xml
@@ -51,9 +52,9 @@ https://rootsecdev.medium.com/feed
 https://s3cur3th1ssh1t.github.io/feed.xml
 https://samcurry.net/api/feed.rss
 https://secret.club/feed.xml
+https://sensepost.com/rss.xml
 https://snovvcra.sh/feed
 https://solar.lowtechmagazine.com/posts/index.xml
-https://sensepost.com/rss.xml
 https://spaceraccoon.dev/feed.xml
 https://specterops.io/feed/
 https://summoning.team/index.xml
