@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime, format_datetime
-from urllib.error import URLError
 from urllib.request import Request, urlopen
 import sys
 import time
@@ -23,7 +22,8 @@ def fetch_feed(url: str) -> ET.Element:
         },
     )
     with urlopen(request, timeout=10) as response:
-        return ET.fromstring(response.read())
+        body = response.read().strip()
+    return ET.fromstring(body)
 
 
 def _parse_rss_date(text: str) -> datetime|None:
@@ -158,6 +158,8 @@ def extract_items(root: ET.Element, url: str) -> list[tuple[ET.Element, datetime
         parsed_url = urllib.parse.urlparse(url)
         source = parsed_url.hostname
 
+    assert source
+
     # Atom feed
     if root.tag == f'{ATOM}feed' or root.tag == 'feed':
         return [normalize_atom_entry(e, source) for e in root.findall(f'{ATOM}entry')]
@@ -170,7 +172,7 @@ def extract_items(root: ET.Element, url: str) -> list[tuple[ET.Element, datetime
     raise ValueError('unrecognized feed format')
 
 
-def merge_feeds(urls: list[str]) -> str:
+def merge_feeds(urls: list[str]) -> None:
     all_items: list[tuple[ET.Element, datetime]] = []
 
     errors = 0
@@ -205,8 +207,6 @@ def merge_feeds(urls: list[str]) -> str:
     print(ET.tostring(root_out, encoding='unicode', xml_declaration=True))
 
     print(f'{errors} errors', file=sys.stderr)
-    if errors:
-        exit(1)
 
 
 if __name__ == '__main__':
