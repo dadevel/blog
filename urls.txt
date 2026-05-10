@@ -7,6 +7,7 @@ https://badoption.eu/feed.xml
 https://blogs.kde.org/categories/this-week-in-plasma/index.xml
 https://blog.delivr.to/feed
 https://blog.didierstevens.com/feed/
+https://blog.doyensec.com/atom.xml
 https://blog.fox-it.com/feed/
 https://blog.orange.tw/atom
 https://blog.quarkslab.com/feeds/all.atom.xml
