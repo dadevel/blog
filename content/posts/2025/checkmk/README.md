@@ -35,9 +35,7 @@ cat << EOF > ./user.json
   "roles": ["admin"]
 }
 EOF
-curl -sSfk https://checkmk.local/cmk/check_mk/api/1.0/domain-types/user_config/collections/all \
-  -H "Authorization: Bearer automation $password" \
-  --json @user.json
+curl -sSfk https://checkmk.local/cmk/check_mk/api/1.0/domain-types/user_config/collections/all -H "Authorization: Bearer automation $password" --json @user.json
 ~~~
 
 With this new account I could now access the web interface.
@@ -51,18 +49,18 @@ One of them are so called *Extension Packages*.
 These can be installed server- or agent-side.
 But while I was tinkering with a custom package, I found a much easier way to obtain command execution on the underlying Linux server:
 
-First, you create a new host by going to *Settings/Hosts/Add host*.
+First, you create a new host by going to `Settings/Hosts/Add host`.
 There you can leave everything at default, but you should specify an IP address to avoid connection errors in later steps.
 
 ![Add new host](add-host.png)
 
-Then go to *Settings/Other integrations*, select *Individual program call instead of agent access* and click *Add rule*.
-There you find the option *Command line to execute* where you can enter your payload.
-Before you click *Save* you should specify the host you created in the previous step under *Explicit hosts*.
+Then go to `Settings/Other integrations`, select `Individual program call instead of agent access` and click `Add rule`.
+There you find the option `Command line to execute` where you can enter your payload.
+Before you click `Save` you should specify the host you created in the previous step under `Explicit hosts`.
 
 ![Configure custom integration](program-call.png)
 
-To trigger execution of the payload, go back to *Settings/Hosts*, click on your host and click *Save & run connection tests*.
+To trigger execution of the payload, go back to `Settings/Hosts`, click on your host and click `Save & run connection tests`.
 
 ![Run connection test](connection-test.png)
 
@@ -93,7 +91,7 @@ It turned out that the Checkmk server, that I initially compromised, is the cent
 Furthermore, the web interface of the remote site was reachable from the first server.
 As expected, I could log in with my admin credentials on the remote site, but the remote site was running in some kind of read-only mode, so I could not gain RCE through the custom integration again.
 
-After reading more documentation, I found the configuration page *Settings/Distributed monitoring* and saw that the option *Disable remote configuration* was enabled for the remote site.
+After reading more documentation, I found the configuration page `Settings/Distributed monitoring` and saw that the option `Disable remote configuration` was enabled for the remote site.
 Disabling this option and applying the configuration change through the yellow exclamation mark in the top right corner brought the remote site into a read-write state and subsequently allowed me to obtain a remote shell on the second server.  
 Finally, I could start a SOCKS proxy there and access the vCenter.
 And as admin on the vCenter I went the usual route, created a snapshot of a domain controller, downloaded the memory image and extracted the computer account credentials with [memprocfs](https://github.com/ufrisk/memprocfs).
@@ -108,20 +106,20 @@ Admins must enter this password each time they want to roll out an update.
 
 With code execution on the underlying Linux server it would probably be possible to backdoor the build process itself, but I found a way to gain code execution on an agent just via configuration changes in the web UI:
 
-First, go to *Settings/Windows, Linux, Solaris, AIX*, select *Agents/Automatic agent updates* in the menu bar and verify that Checkmk is actually configured to roll out updates automatically.
+First, go to `Settings/Windows, Linux, Solaris, AIX`, select `Agents/Automatic agent updates` in the menu bar and verify that Checkmk is actually configured to roll out updates automatically.
 Afterwards go back to the previous page.
 
 ![Check automatic updates](automatic-updates.png)
 
-Back at *Settings/Windows, Linux, Solaris, AIX* select *Agent rules* in the menu bar, then select *Execute MRPE checks* and finally *Add rule*.
-There, click *Add plug-in* and specify a *Service name* and *Command line to execute*.
-Then configure the system you want to target, e.g. a domain controller, under *Explicit hosts*.
+Back at `Settings/Windows, Linux, Solaris, AIX` select `Agent rules` in the menu bar, then select `Execute MRPE checks` and finally `Add rule`.
+There, click `Add plug-in` and specify a `Service name` and `Command line to execute`.
+Then configure the system you want to target, e.g. a domain controller, under `Explicit hosts`.
 If you are targeting a Windows agent, the command line must start with an absolute program path.
 
 ![Configure MRPE check](mrpe-check.png)
 
-Finally, click on the yellow exclamation mark in the top right corner and click *Activate on selected sites*.
-If you know the signing password you can now go to *Settings/Windows, Linux, Solaris, AIX* and click *Bake and sign agents*.
+Finally, click on the yellow exclamation mark in the top right corner and click `Activate on selected sites`.
+If you know the signing password you can now go to `Settings/Windows, Linux, Solaris, AIX` and click `Bake and sign agents`.
 Otherwise wait until an admin distributes your changes with the next routine update.
 Shortly after the monitoring agent installs the update, your command will be executed as *NT Authority\System* 🥳
 

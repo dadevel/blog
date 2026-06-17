@@ -5,7 +5,7 @@ date: 2024-04-19
 draft: false
 ---
 
-The PEB, TEB and KUSER_SHARED_DATA structs are mapped into the memory space of every process.
+The `PEB`, `TEB` and `KUSER_SHARED_DATA` structs are mapped into the memory space of every process.
 They provide a wealth of information to the process and can be accessed without having to perform syscalls.
 Using them for anti-debugging is widely known and documented for example by [CheckPoint](https://anti-debug.checkpoint.com/techniques/debug-flags.html).
 But they can also be used for stealthy anti-sandbox and anti-vm checks.

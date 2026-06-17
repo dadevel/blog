@@ -147,7 +147,7 @@ def preprocess_page(all_posts: list[Page], current_post: Page) -> None:
             'tables',
             ImageCaptionExtension(),
             SuperFencesCodeExtension(disable_indented_code_blocks=True),
-            HighlightExtension(guess_lang=False, noclasses=False),
+            HighlightExtension(guess_lang=False, noclasses=False, line_spans='line'),
         ],
         output_format='html',
     )

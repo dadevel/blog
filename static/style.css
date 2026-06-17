@@ -8,8 +8,10 @@
   --color-bg: #FFFFFF; /* background, full white */
   --color-bg-secondary: #FAFAFA; /* code block and quote, white 5% darkened */
   --color-bg-alternate: #F2F2F2; /* alternate table row, white 2% darkened */
+  --color-bg-tertiary: #F2F2F2; /* inline code, white 2% darkened */
   --color-text: #000000; /* foreground, full black */
-  --color-text-secondary: #666666; /* small, figcaption, black 40% lightened  */
+  --color-text-secondary: #666666; /* small, figcaption, black 40% lightened */
+  --color-text-tertiary: #B3B3B3; /* code block line markers lightened, black 70% lightened */
   --color-link: #118bee; /* a, blue accent */
   --color-accent: #ff0000; /* ? */
   --color-secondary: #ff0000;  /* ? */
@@ -22,9 +24,11 @@
     --color-bg: #000000; /* full black */
     --color-bg-secondary: #1A1A1A; /* black 10% lightened */
     --color-bg-alternate: #121212; /* black 7% lightened */
+    --color-bg-tertiary: #262626; /* black 15% lightened */
     --color-table: var(--color-bg-secondary);
     --color-text: #FFFFFF; /* full white */
     --color-text-secondary: #BFBFBF; /* white 25% darkened */
+    --color-text-tertiary: #666666; /* white 60% darkened */
     --color-link: #118bee; /* blue accent */
     --color-accent: #ff0000;
     --color-secondary: #ff0000;
@@ -104,14 +108,24 @@ small a {
 #content pre code {
   max-width: 100%;
   min-width: 100%;
-  padding: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 1.75rem; /* larger left padding is compensated below by span left margin, together this is a work around to properly indent wrapped lines */
+  padding-right: 1rem;
   margin: 0.5em 0;
-  overflow-x: auto;
-  overflow-y: hidden;
   display: inline-block;
   background-color: var(--color-bg-secondary);
   box-sizing: border-box;
   white-space: pre;
+  text-wrap: wrap;
+  word-break: break-all;
+}
+
+#content pre code > span:before {
+  content: '↳';
+  color: var(--color-text-tertiary);
+  margin-left: -0.75rem;
+  padding-right: 0.25rem;
 }
 
 #content .tabbed-content pre code {
@@ -120,11 +134,14 @@ small a {
 }
 
 #content code {
-  padding: 0;
   display: inline;
-  background-color: transparent;
-  /* forcibly break long file paths */
-  word-wrap: anywhere;
+  background-color: var(--color-bg-tertiary);
+  word-break: break-all; /* forcibly break long file paths */
+  /* extend background color slightly before and after the text itself */
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 0.1rem;
+  padding-right: 0.1rem;
 }
 
 hr {
@@ -141,6 +158,11 @@ hr {
 #content blockquote ul {
   margin-left: 1rem;
   padding: 0;
+}
+
+#content main p code {
+  /* make font size of inline code blocks equal to surrounding text */
+  font-size: 1rem;
 }
 
 a {
