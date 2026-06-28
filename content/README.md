@@ -8,4 +8,4 @@ template: postindex
 # Hi there, 👋
 
 welcome to my blog.
-You will find posts about pentesting, red teaming and malware development below.
+You can find posts about pentesting, red teaming and malware development below.
