@@ -10,7 +10,7 @@ dependencies = [
   "markdown>=3.11.3",
   "pillow>=13.0.0",
   "pygments>=2.21.0",
-  "pymdown-extensions>=12.3",
+  "pymdown-extensions>=13.0",
   "pyyaml>=6.0.3",
 ]
 
