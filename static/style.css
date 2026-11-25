@@ -160,11 +160,6 @@ hr {
   padding: 0;
 }
 
-#content main p code {
-  /* make font size of inline code blocks equal to surrounding text */
-  font-size: 1rem;
-}
-
 a {
   font-weight: normal;
   color: var(--color-text);
